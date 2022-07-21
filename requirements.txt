@@ -1,0 +1,2 @@
+fugle-trade==0.2.7
+requests==2.28.1

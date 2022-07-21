@@ -1,0 +1,2 @@
+00 16 * * * python /app/fugle-max-demo/settlement_from_max.py
+00 17 * * * python /app/fugle-max-demo/profit_to_stock.py

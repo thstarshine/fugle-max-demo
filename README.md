@@ -1,92 +1,44 @@
 # fugle-max-demo
 
+這是於 Taipei.py 2022/07 聚會分享所使用的 demo repo。
 
+分享題目：加密貨幣與台股！？－打通虛實資產互換的第一哩路
 
-## Getting started
+https://www.meetup.com/taipei-py/events/287054538/
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## 想法
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+使用 Fugle 富果及 MAX 交易所的 API，來自動處理台股與虛擬貨幣間的特定資產平衡需求。
 
-## Add your files
+## 情境
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+在股市及虛擬貨幣的熊市中，已經先行把多數高風險幣資產換成 USDC 存放。因美金持續升值，希望將 USDC 存款作為台股交割的預設款項來源，且若這段期間在幣圈有超額利潤的機會，能將多餘的金額匯回台股購買已有一定跌幅的全市場 ETF。
+
+## 實際作法
+
+* 每天 16:00 檢查富果帳戶的交割資訊，如果有應付款，就從 MAX 換相對應的 USDC 到銀行帳戶。
+* 每天 17:00 檢查 MAX 的 USDC 餘額，如果高於某個數值，就自動用超額利潤掛相對應的 0050 預約單。
+
+## 可設定參數
+
+* 兩個排程的執行時間
+* MAX 要換為台幣的虛擬幣別
+* 計算超額利潤的餘額 threshold
+* 預約單要交易的股票代碼
+
+## Caveats
+
+因為目前 Python SDK 尚無法使用 non-interactive 的方式設定證券及憑證密碼，如果需要使用排程，必須先在本地端環境執行一次登入。若要搬移執行環境，需將 keyring crypt file 同時複製到另一個環境，或重新登入一次。
+
+可使用以下指令確認 keyring file 的位置：
 
 ```
-cd existing_repo
-git remote add origin https://git.fugle.tw/starshine/fugle-max-demo.git
-git branch -M main
-git push -uf origin main
+python -c "import keyring.util.platform_; print(keyring.util.platform_.data_root())"
 ```
 
-## Integrate with your tools
+## 參考資料
 
-- [ ] [Set up project integrations](https://git.fugle.tw/starshine/fugle-max-demo/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+* https://developer.fugle.tw/
+* https://max.maicoin.com/documents/api
+* https://faun.pub/howto-deploy-serverless-function-on-google-cloud-using-terraform-cbbb263571c1
+* https://github.com/fingineering/GCPFunctionDevOpsDemo

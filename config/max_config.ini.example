@@ -1,0 +1,7 @@
+[max]
+max_api_base_url = https://max-api.maicoin.com
+access_key = 
+secret_key = 
+currency = usdc
+profit_threshold = 100
+exchange_rate = 29

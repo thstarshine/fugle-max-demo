@@ -1,0 +1,13 @@
+[Core]
+Entry = https://fugletradingapi.esunsec.com.tw/api/v1
+[Cert]
+Path = 
+[Api]
+Key = 
+Secret = 
+[User]
+Account = 
+[Fugle]
+RealtimeBaseUrl = https://api.fugle.tw/realtime/v0.3
+RealtimeToken = 
+Stock = 0050
